@@ -1,0 +1,8 @@
+Test/teapot_v1_test.hxa
+Test/teapot_v3_test.hxa
+Test/teapot_v1_print_test.txt
+Test/teapot_v3_print_test.txt
+Test/teapot_converted_v1_v3.hxa
+
+zig-cache/*
+zig-out/*

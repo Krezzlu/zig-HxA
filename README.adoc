@@ -1,0 +1,37 @@
+:source-highlighter: highlightjs
+
+= zig-HxA
+
+This is a parser for the https://github.com/quelsolaar/HxA[HxA] file format (by the wonderful http://www.quelsolaar.com/[Eskil Steenberg]) in the zig programming language.
+
+This is an alpha project and certain aspects of this implementation could not be testet. Feel free to open an issue or pull request if something catches your eye! Known correct HxA files are also welcome as a test tool!
+
+== The Standard
+The actual standard can be found in `types.hxa`. The struct represented there is the actual HxA format.
+
+== Usage
+[source, C]
+----
+const std = @import("std");
+const hxa = @import("HxA.zig");
+
+const allocator = std.heap.page_allocator;
+
+const file1 = &try std.fs.cwd().openFile("Test/teapot_v1.hxa", .{ .read = true });
+const file2 = &try std.fs.cwd().createFile("Test/teapot_v1_test.hxa", .{ .read = true });
+const stdout = &std.io.getStdOut().writer();
+
+// Load HxA file
+const teapot_v1 = try hxa.load(allocator, file1);
+// Free when done
+defer hxa.free(allocator, teapot_v1);
+
+// Print HxA in human readable format to stdout
+try hxa.print(teapot_v1, stdout, .data);
+
+// Save HxA to file
+try hxa.save(teapot_v1, file2);
+----
+
+== Tests
+Run all tests with `zig build test`. Since I am unsure if the parser handles all cases correctly, tests are more of a tool to communicate breaking code change than to validate absolute feature correctness.
