@@ -402,9 +402,7 @@ pub fn print(hxa: *File, writer: *std.fs.File.Writer, option: PrintOptions) !voi
 fn printMeta(writer: *std.fs.File.Writer, meta: *[]Meta, tab_len: usize, option: PrintOptions) Error!void {
     const tabs = [_]u8 {'\t'} ** 16;
 
-    for (meta.*) |*data, i| {
-        _ = i;
-
+    for (meta.*) |*data| {
         try writer.print("{s}-Meta {s} \"{s}\" [{}]:", .{ tabs[0..tab_len % tabs.len], @tagName(data.type), data.name, data.len });
 
         // print data
